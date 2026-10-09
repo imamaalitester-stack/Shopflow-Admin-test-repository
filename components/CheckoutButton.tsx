@@ -2,28 +2,18 @@
 
 import { useState } from "react";
 
-const STRIPE_SECRET_KEY = "sk_live_NOTAREALKEY1234";
-
 export default function CheckoutButton({ amountCents }: { amountCents: number }) {
   const [loading, setLoading] = useState(false);
 
   async function startCheckout() {
     setLoading(true);
     try {
-      const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      const res = await fetch("/api/checkout", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${STRIPE_SECRET_KEY}`,
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
         },
-        body: new URLSearchParams({
-          "line_items[0][price_data][currency]": "usd",
-          "line_items[0][price_data][product_data][name]": "ShopFlow order",
-          "line_items[0][price_data][unit_amount]": String(amountCents),
-          "line_items[0][quantity]": "1",
-          mode: "payment",
-          success_url: "http://localhost:3000/success",
-        }),
+        body: JSON.stringify({ amountCents }),
       });
       const session = await res.json();
       if (session.url) window.location.href = session.url;
