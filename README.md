@@ -15,8 +15,8 @@ Open http://localhost:3000.
 
 1. Create a Supabase project and run `supabase/schema.sql` in the SQL editor.
 2. Copy `.env.example` to `.env.local` and fill in your Supabase URL and anon key.
-3. Put your Stripe key in `components/CheckoutButton.tsx` so the checkout can
-   create a session.
+3. Put your Stripe secret key in `.env.local` as `STRIPE_SECRET_KEY` so the
+   checkout API route can create a session.
 
 ## Deploying
 
